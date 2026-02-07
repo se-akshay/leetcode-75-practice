@@ -25,3 +25,32 @@ public:
         return true;
     }
 };
+
+
+
+
+class Solution {
+private:
+    int nextLeaf(stack<TreeNode*>& st){
+        while(!st.empty()){
+            TreeNode* top = st.top();
+            st.pop();
+            if(top->left == NULL && top->right == NULL) return top->val;
+            if(top->right)st.push(top->right);
+            if(top->left)st.push(top->left);
+        }
+        return -1;
+    }
+public:
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        stack<TreeNode*> st1, st2;
+        st1.push(root1);
+        st2.push(root2);
+        while(!st1.empty() && !st2.empty()){
+            if(nextLeaf(st1) != nextLeaf(st2)){
+                return false;
+            }
+        }
+        return st1.empty() && st2.empty();
+    }
+};
